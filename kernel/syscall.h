@@ -21,3 +21,7 @@
 #define SYS_mkdir  20
 #define SYS_close  21
 #define SYS_sync   22
+#define SYS_hello  23
+#define SYS_add    24
+#define SYS_sleep  25
+#define SYS_setpriority 26

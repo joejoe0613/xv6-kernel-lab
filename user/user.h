@@ -25,6 +25,10 @@ char *sys_sbrk(int, int);
 int pause(int);
 int uptime(void);
 int sync(void);
+int hello(void);
+int add(int, int);
+int sleep(int);
+int setpriority(int, int);
 
 // ulib.c
 int stat(const char *, struct stat *);

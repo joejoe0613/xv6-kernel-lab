@@ -43,3 +43,7 @@ entry("sbrk");
 entry("pause");
 entry("uptime");
 entry("sync");
+entry("hello");
+entry("add");
+entry("sleep");
+entry("setpriority");

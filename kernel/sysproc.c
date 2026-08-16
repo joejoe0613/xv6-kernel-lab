@@ -8,6 +8,24 @@
 #include "vm.h"
 
 uint64
+sys_hello(void)
+{
+   printk("Hello from xv6 kernel!\n");
+   return 0;
+}
+
+uint64
+sys_add(void)
+{
+	int a, b;
+
+	argint(0, &a);
+  argint(1, &b);
+
+  return a + b;
+}
+
+uint64
 sys_exit(void)
 {
   int n;
@@ -106,4 +124,16 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+
+}
+
+uint64
+sys_setpriority(void)
+{
+  int pid, priority;
+
+  argint(0, &pid);
+  argint(1, &priority);
+
+  return setpriority(pid, priority);
 }
