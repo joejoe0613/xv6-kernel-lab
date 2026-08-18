@@ -89,6 +89,7 @@ struct proc {
   int xstate;           // Exit status to be returned to parent's wait
   int pid;              // Process ID
   int priority;         // Smaller value means higher priority
+  int wait_ticks;       // Used for aging
 
   // wait_lock must be held when using this:
   struct proc *parent; // Parent process

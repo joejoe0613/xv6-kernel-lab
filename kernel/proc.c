@@ -6,6 +6,11 @@
 #include "proc.h"
 #include "defs.h"
 
+#define MIN_PRIORITY 1
+#define MAX_PRIORITY 20
+#define DEFAULT_PRIORITY 10
+#define AGING_THRESHOLD 1
+
 struct cpu cpus[NCPU];
 
 struct proc proc[NPROC];
@@ -125,6 +130,7 @@ found:
   p->pid = allocpid();
   p->state = USED;
   p->priority = 10;
+  p->wait_ticks = 0;
 
   // Allocate a trapframe page.
   if ((p->trapframe = (struct trapframe *)kalloc()) == 0) {
@@ -430,6 +436,7 @@ scheduler(void)
   struct cpu *c = mycpu();
 
   c->proc = 0;
+
   for (;;) {
     // The most recent process to run may have had interrupts
     // turned off; enable them to avoid a deadlock if all
@@ -439,26 +446,42 @@ scheduler(void)
     intr_on();
 
     best = 0;
-    int best_priority = 1000000;
+    //int best_priority = 1000000;
 
     // Find runnable process with highest priority
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if(p->state == RUNNABLE && p->priority < best_priority) {
-        best = p;
-        best_priority = p->priority;
+      
+      if(p->state == RUNNABLE){
+        p->wait_ticks++;
+
+        if(p->wait_ticks >= AGING_THRESHOLD && p->priority > MIN_PRIORITY){
+          p->priority--;
+          p->wait_ticks = 0;
+        }
+
+        if(best == 0 ||
+           p->priority < best->priority ||
+           (p->priority == best->priority && p->wait_ticks > best->wait_ticks)){
+            best = p;
+        }
       }
+
       release(&p->lock);
     }
 
     if(best != 0) {
       acquire(&best->lock);
+
       if(best->state == RUNNABLE) {
         best->state = RUNNING;
+        best->wait_ticks = 0;
+
         c->proc = best;
         swtch(&c->context, &best->context);
         c->proc = 0;
       }
+      
       release(&best->lock);
     }
   }
@@ -698,14 +721,15 @@ setpriority(int pid, int priority)
 {
   struct proc *p;
 
-  if(priority < 0 || priority > 20)
-    return - 1;
+  if(priority < MIN_PRIORITY || priority > MAX_PRIORITY)
+    return -1;
 
   for(p = proc; p < &proc[NPROC]; p++){
     acquire(&p->lock);
 
     if(p->pid == pid){
       p->priority = priority;
+      p->wait_ticks = 0;
       release(&p->lock);
       return 0;
     }
