@@ -5,6 +5,7 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+#include "pstat.h"
 
 #define MIN_PRIORITY 1
 #define MAX_PRIORITY 20
@@ -738,4 +739,35 @@ setpriority(int pid, int priority)
   }
 
   return -1;
+}
+
+int
+getpinfo(uint64 addr)
+{
+  struct proc *p;
+  struct proc *curr = myproc();
+  struct pstat ps;
+  int i = 0;
+
+  memset(&ps, 0, sizeof(ps));
+
+  for(p = proc; p < &proc[NPROC]; p++, i++){
+    acquire(&p->lock);
+
+    if(p->state != UNUSED){
+      ps.inuse[i] = 1;
+      ps.pid[i] = p->pid;
+      ps.state[i]=  p->state;
+      ps.priority[i] = p->priority;
+      ps.wait_ticks[i] = p->wait_ticks;
+      safestrcpy(ps.name[i], p->name, sizeof(ps.name[i]));
+    }
+
+    release(&p->lock);
+  }
+
+  if(copyout(curr->pagetable, addr, (char *)&ps, sizeof(ps)) < 0)
+    return -1;
+  
+  return 0;
 }

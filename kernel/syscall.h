@@ -25,3 +25,4 @@
 #define SYS_add    24
 #define SYS_sleep  25
 #define SYS_setpriority 26
+#define SYS_getpinfo 27

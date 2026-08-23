@@ -152,6 +152,8 @@ UPROGS=\
 	$U/_yieldtest\
 	$U/_prioritytest\
 	$U/_agingtest\
+	$U/_ps\
+	$U/_pinfotest\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

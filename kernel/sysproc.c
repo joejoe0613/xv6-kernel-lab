@@ -137,3 +137,13 @@ sys_setpriority(void)
 
   return setpriority(pid, priority);
 }
+
+uint64
+sys_getpinfo(void)
+{
+  uint64 addr;
+
+  argaddr(0, &addr);
+
+  return getpinfo(addr);
+}

@@ -47,3 +47,4 @@ entry("hello");
 entry("add");
 entry("sleep");
 entry("setpriority");
+entry("getpinfo");
