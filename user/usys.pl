@@ -48,3 +48,6 @@ entry("add");
 entry("sleep");
 entry("setpriority");
 entry("getpinfo");
+entry("sem_create");
+entry("sem_wait");
+entry("sem_post");

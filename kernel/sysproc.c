@@ -147,3 +147,33 @@ sys_getpinfo(void)
 
   return getpinfo(addr);
 }
+
+uint64
+sys_sem_create(void)
+{
+  int value;
+
+  argint(0, &value);
+
+  return sem_create(value);
+}
+
+uint64
+sys_sem_wait(void)
+{
+  int id;
+
+  argint(0, &id);
+
+  return sem_wait_kernel(id);
+}
+
+uint64
+sys_sem_post(void)
+{
+  int id;
+  
+  argint(0, &id);
+
+  return sem_post_kernel(id);
+}

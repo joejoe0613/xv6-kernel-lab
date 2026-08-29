@@ -26,3 +26,6 @@
 #define SYS_sleep  25
 #define SYS_setpriority 26
 #define SYS_getpinfo 27
+#define SYS_sem_create 28
+#define SYS_sem_wait 29
+#define SYS_sem_post 30

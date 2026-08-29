@@ -54,3 +54,8 @@ void printf(const char *, ...) __attribute__((format(printf, 1, 2)));
 // umalloc.c
 void *malloc(uint);
 void free(void *);
+
+// semaphore.c
+int sem_create(int);
+int sem_wait(int);
+int sem_post(int);
