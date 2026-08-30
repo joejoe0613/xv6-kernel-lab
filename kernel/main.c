@@ -21,6 +21,7 @@ main()
     kvminithart();      // turn on paging
     procinit();         // process table
     seminit();          // swap process
+    queueinit();        // producer and consumer
     trapinit();         // trap vectors
     trapinithart();     // install kernel trap vector
     plicinit();         // set up interrupt controller

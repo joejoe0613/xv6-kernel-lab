@@ -59,3 +59,8 @@ void free(void *);
 int sem_create(int);
 int sem_wait(int);
 int sem_post(int);
+
+// queue.c
+int qcreate(void);
+int qsend(int, int);
+int qrecv(int, int *);

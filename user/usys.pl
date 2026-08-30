@@ -51,3 +51,6 @@ entry("getpinfo");
 entry("sem_create");
 entry("sem_wait");
 entry("sem_post");
+entry("qcreate");
+entry("qsend");
+entry("qrecv");

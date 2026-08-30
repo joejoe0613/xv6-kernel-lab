@@ -29,3 +29,6 @@
 #define SYS_sem_create 28
 #define SYS_sem_wait 29
 #define SYS_sem_post 30
+#define SYS_qcreate 31
+#define SYS_qsend 32
+#define SYS_qrecv 33

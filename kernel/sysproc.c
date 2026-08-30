@@ -177,3 +177,45 @@ sys_sem_post(void)
 
   return sem_post_kernel(id);
 }
+
+uint64
+sys_qcreate(void)
+{
+  return qcreate();
+}
+
+uint64
+sys_qsend(void)
+{
+  int id;
+  int value;
+
+  argint(0, &id);
+  argint(1, &value);
+
+  return qsend_kernel(id, value);
+}
+
+uint64
+sys_qrecv(void)
+{
+  int id;
+  int value;
+  uint64 addr;
+
+  argint(0, &id);
+  argaddr(1, &addr);
+
+  if(qrecv_kernel(id, &value) < 0)
+    return -1;
+
+  struct proc *p = myproc();
+
+  if(copyout(p->pagetable,
+            addr,
+            (char *)&value,
+            sizeof(value)) < 0)
+    return -1;
+
+  return 0;
+}

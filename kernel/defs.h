@@ -193,5 +193,11 @@ int             sem_create(int);
 int             sem_wait_kernel(int);
 int             sem_post_kernel(int);
 
+// queue.c
+void            queueinit(void);
+int             qcreate(void);
+int             qsend_kernel(int, int);
+int             qrecv_kernel(int, int *);
+
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x) / sizeof((x)[0]))

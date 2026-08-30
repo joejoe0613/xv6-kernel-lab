@@ -30,6 +30,7 @@ OBJS = \
   $K/plic.o \
   $K/virtio_disk.o \
   $K/semaphore.o \
+  $K/queue.o \
 
 # riscv64-unknown-elf- or riscv64-linux-gnu-
 # perhaps in /opt/riscv/bin
@@ -157,6 +158,7 @@ UPROGS=\
 	$U/_pinfotest\
 	$U/_semtest\
 	$U/_semsignal\
+	$U/_queuetest\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
